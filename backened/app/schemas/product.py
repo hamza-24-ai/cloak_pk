@@ -7,7 +7,7 @@ class ProductCreate(BaseModel):
     description: Optional[str] = None
     price: float
     original_price: Optional[float] = None
-    category_id: Optional[int] = None
+    Category_id: Optional[int] = None
     sizes: Optional[List[str]] = []
     colors: Optional[List[str]] = []
     stock: int = 0
@@ -18,7 +18,7 @@ class ProductUpdate(BaseModel):
     description: Optional[str] = None
     price: Optional[float] = None
     original_price: Optional[float] = None
-    category_id: Optional[int] = None
+    Category_id: Optional[int] = None
     sizes: Optional[List[str]] = None
     colors: Optional[List[str]] = None
     stock: Optional[int] = None
@@ -30,7 +30,7 @@ class ProductResponse(BaseModel):
     description: Optional[str]
     price: float
     original_price: Optional[float]
-    category_id: Optional[int]
+    Category_id: Optional[int]
     sizes: Optional[List[str]]
     colors: Optional[List[str]]
     images: Optional[List[str]]

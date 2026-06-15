@@ -9,10 +9,10 @@ class Product(Base):
 
     id = Column(Integer,primary_key=True,index=True)
     name = Column(String,nullable=False)
-    description = Column(String,nullable=False)
+    description = Column(String,nullable=True)
     price = Column(Float,nullable=False)
     original_price = Column(Float,nullable=False)
-    Category_id = Column(Integer,ForeignKey("categories.id"),nullable=False)
+    Category_id = Column(Integer,ForeignKey("categories.id"),nullable=True)
     sizes = Column(ARRAY(String),default=[])
     colors = Column(ARRAY(String),default=[])
     images = Column(ARRAY(String),default=[])

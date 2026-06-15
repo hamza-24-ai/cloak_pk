@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base,engine
-from app.routes import auth,category
+from app.routes import auth,category,product,cart,order, review, coupon, notification
 from fastapi.security import OAuth2PasswordBearer
 
 
@@ -33,6 +33,12 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(category.router)
+app.include_router(product.router)
+app.include_router(cart.router)
+app.include_router(order.router)
+app.include_router(review.router)
+app.include_router(coupon.router)
+app.include_router(notification.router)
 
 Base.metadata.create_all(bind=engine)
 
