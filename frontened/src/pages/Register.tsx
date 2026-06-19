@@ -4,41 +4,37 @@ import { useForm } from "react-hook-form"
 import { Eye, EyeOff } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { login } from "@/api/auth"
+import { getregister } from "@/api/auth"
 import { useAuthStore } from "@/store/authStore"
 import { toast } from "sonner"
 
-interface LoginForm {
+interface RegisterForm {
+    name: string
     email: string
     password: string
+    confirmPassword: string
 }
 
-export default function Login() {
+export default function Register() {
     const navigate = useNavigate()
     const setAuth = useAuthStore((state) => state.setAuth)
     const [showPassword, setShowPassword] = useState(false)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
 
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>()
+    const { register, handleSubmit, watch, formState: { errors } } = useForm<RegisterForm>()
+    const password = watch("password")
 
-    const onSubmit = async (formData: LoginForm) => {
+    const onSubmit = async (formData: RegisterForm) => {
         setLoading(true)
         setError("")
         try {
-            const response = await login(formData.email, formData.password)
+            const response = await getregister(formData.name, formData.email, formData.password)
             setAuth(response.user, response.access_token)
-
-            // Auto redirect based on role
-            if (response.user.is_admin) {
-                navigate("/admin/dashboard")
-                toast.success("Welcome to admin Dashboard")
-            } else {
-                navigate("/")
-                toast.success("Welcome to ClockPk Store")
-            }
-        } catch (err : any) {
-            toast.error(err.response?.data?.detail || "Login failed. Try again.")
+            navigate("/")
+            toast.success("Welcome to CloakPk Store")
+        } catch (err: any) {
+            toast.error(err.response?.data?.detail || "Registration failed. Try again.")
         } finally {
             setLoading(false)
         }
@@ -49,7 +45,7 @@ export default function Login() {
             {/* Left — Brand Image */}
             <div className="hidden lg:flex lg:w-1/2 relative">
                 <img 
-                    src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&h=1600&fit=crop"
+                    src="https://plus.unsplash.com/premium_photo-1669688174622-0393f5c6baa2?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bWVucyUyMGNsb3RoaW5nfGVufDB8fDB8fHww"
                     className="absolute inset-0 w-full h-full object-cover"
                     alt="CloakPK"
                 />
@@ -67,13 +63,13 @@ export default function Login() {
                         Wear Your Story
                     </h1>
                     <p className="text-white/70 text-lg">
-                        Premium Pakistani fashion, delivered to you
+                        Join CloakPK and discover premium fashion
                     </p>
                 </div>
             </div>
 
             {/* Right — Form */}
-            <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-[#FAFAF9]">
+            <div className="flex-1 flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-[#FAFAF9] py-8">
                 <div className="w-full max-w-md">
                     <Link to="/" className="block text-center mb-8">
                         <span className="text-3xl font-bold text-[#18181B]" style={{ fontFamily: "Playfair Display, serif" }}>
@@ -83,19 +79,33 @@ export default function Login() {
 
                     <div className="bg-white border border-[#E4E4E7] rounded-lg p-8">
                         <h2 className="text-2xl font-semibold text-[#18181B] mb-1">
-                            Welcome back
+                            Create an account
                         </h2>
                         <p className="text-[#71717A] text-sm mb-6">
-                            Login to continue shopping
+                            Sign up to start shopping
                         </p>
 
                         {error && (
                             <div className="bg-red-50 border border-red-200 text-[#DC2626] text-sm rounded-md p-3 mb-4">
-                                {error}
+                                toast.error({error})
                             </div>
                         )}
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-[#18181B] mb-1.5">
+                                    Full Name
+                                </label>
+                                <Input 
+                                    placeholder="Muhammad Hamza"
+                                    {...register("name", { required: "Name is required" })}
+                                    className="border-[#E4E4E7] focus-visible:ring-[#18181B]"
+                                />
+                                {errors.name && (
+                                    <p className="text-[#DC2626] text-xs mt-1">{errors.name.message}</p>
+                                )}
+                            </div>
+
                             <div>
                                 <label className="block text-sm font-medium text-[#18181B] mb-1.5">
                                     Email
@@ -118,19 +128,17 @@ export default function Login() {
                             </div>
 
                             <div>
-                                <div className="flex items-center justify-between mb-1.5">
-                                    <label className="block text-sm font-medium text-[#18181B]">
-                                        Password
-                                    </label>
-                                    <a href="#" className="text-xs text-[#C6A969] hover:underline">
-                                        Forgot password?
-                                    </a>
-                                </div>
+                                <label className="block text-sm font-medium text-[#18181B] mb-1.5">
+                                    Password
+                                </label>
                                 <div className="relative">
                                     <Input 
                                         type={showPassword ? "text" : "password"}
                                         placeholder="••••••••"
-                                        {...register("password", { required: "Password is required" })}
+                                        {...register("password", { 
+                                            required: "Password is required",
+                                            minLength: { value: 6, message: "Min 6 characters" }
+                                        })}
                                         className="border-[#E4E4E7] focus-visible:ring-[#18181B] pr-10"
                                     />
                                     <button
@@ -146,19 +154,37 @@ export default function Login() {
                                 )}
                             </div>
 
+                            <div>
+                                <label className="block text-sm font-medium text-[#18181B] mb-1.5">
+                                    Confirm Password
+                                </label>
+                                <Input 
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="••••••••"
+                                    {...register("confirmPassword", { 
+                                        required: "Please confirm password",
+                                        validate: (value) => value === password || "Passwords don't match"
+                                    })}
+                                    className="border-[#E4E4E7] focus-visible:ring-[#18181B]"
+                                />
+                                {errors.confirmPassword && (
+                                    <p className="text-[#DC2626] text-xs mt-1">{errors.confirmPassword.message}</p>
+                                )}
+                            </div>
+
                             <Button 
                                 type="submit"
                                 disabled={loading}
                                 className="w-full bg-[#18181B] hover:bg-[#09090B] text-white"
                             >
-                                {loading ? "Logging in..." : "Login"}
+                                {loading ? "Creating account..." : "Create Account"}
                             </Button>
                         </form>
 
                         <p className="text-center text-sm text-[#71717A] mt-6">
-                            New here?{" "}
-                            <Link to="/register" className="text-[#C6A969] font-medium hover:underline">
-                                Create an account
+                            Already have an account?{" "}
+                            <Link to="/login" className="text-[#C6A969] font-medium hover:underline">
+                                Login
                             </Link>
                         </p>
                     </div>

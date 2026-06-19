@@ -5,7 +5,7 @@ from datetime import datetime
 class CategoryCreate(BaseModel):
     name : str
     slug : str 
-    image : Optional[str]
+    image : Optional[str] = None
 
 
 class ResponseCategory(BaseModel):
