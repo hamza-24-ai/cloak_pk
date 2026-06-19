@@ -89,7 +89,7 @@ const AdminProducts = () => {
       formData.append("description" , description)
       formData.append("price", price)
       if(originalprice) formData.append("original_price", originalprice)
-      if(categoryId) formData.append("category_id", categoryId)
+      if(categoryId) formData.append("Category_id", categoryId)
       formData.append("sizes",sizes)
       formData.append("colors",colors)
       formData.append("stock",stock)
