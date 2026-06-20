@@ -7,6 +7,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { Link } from "react-router-dom"
 
+
 export default function Hero() {
 
   useEffect(()=>{
@@ -22,7 +23,9 @@ export default function Hero() {
   const [categories,setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
 
+
   useEffect(()=>{
+
     const fetchdata = async() => {
       try{
         const [products,cats] = await Promise.all([
@@ -107,7 +110,7 @@ export default function Hero() {
                     className="group relative h-64 rounded-lg overflow-hidden"
                   >
 
-                  <img src={data.image || ''} alt={data.slug}
+                  <img src={data.image || undefined} alt={data.slug}
                   className=" w-full h-full object-cover group-hover:scale-105 transition-all duration-300" 
                   />
                   <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors flex items-center justify-center">

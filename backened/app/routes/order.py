@@ -12,8 +12,11 @@ from app.schemas.order import OrderCreate, OrderResponse
 from app.utils.auth import get_current_user, get_admin
 import stripe
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+print("Key", stripe.api_key)
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
 
@@ -58,7 +61,7 @@ def place_order(
             "product_id": item.product_id,
             "quantity": item.quantity,
             "size": item.size,
-            "color": item.color,
+            "color": item.Color,
             "price": product.price
         })
 
@@ -86,7 +89,7 @@ def place_order(
 
     # Order banao
     order = Order(
-        user_id=current_user.id,
+        userid=current_user.id,
         total=round(total, 2),
         status="pending",
         address=data.address.dict()
@@ -132,7 +135,7 @@ def get_my_orders(
     current_user = Depends(get_current_user)
 ):
     return db.query(Order).filter(
-        Order.user_id == current_user.id
+        Order.userid == current_user.id
     ).order_by(Order.created_at.desc()).all()
 
 @router.get("/{order_id}", response_model=OrderResponse)
@@ -143,7 +146,7 @@ def get_order(
 ):
     order = db.query(Order).filter(
         Order.id == order_id,
-        Order.user_id == current_user.id
+        Order.userid == current_user.id
     ).first()
 
     if not order:
@@ -160,7 +163,7 @@ def create_payment(
 ):
     order = db.query(Order).filter(
         Order.id == order_id,
-        Order.user_id == current_user.id
+        Order.userid == current_user.id
     ).first()
 
     if not order:
@@ -217,7 +220,7 @@ def update_order_status(
 
     # Customer ko notification bhejo
     notification = Notification(
-        user_id=order.user_id,
+        user_id=order.userid,
         title=f"Order {status.capitalize()}!",
         message=f"Your Order #{order.id} is {status}",
         type="order"

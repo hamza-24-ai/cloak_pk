@@ -23,6 +23,7 @@ import AdminCoupons from "./pages/admin/Coupons"
 // Layout
 import Navbar from "./components/layout/Navbar"
 import Footer from "./components/layout/Footer"
+import OrderSuccess from "./pages/OrderSuccess"
 
 
 function App() {
@@ -79,13 +80,21 @@ function App() {
                 } />
 
                 {/* Admin Routes — no Navbar/Footer */}
-                 <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
+                <Route path="/admin" element={<AdminRoute><AdminLayout /></AdminRoute>}>
                     <Route path="dashboard" element={<AdminDashboard />} />
                     <Route path="products" element={<AdminProducts />} />
                     <Route path="categories" element={<AdminCategories />} />
                     <Route path="orders" element={<AdminOrders />} />
                     <Route path="coupons" element={<AdminCoupons />} />
                 </Route>
+
+                <Route path="/order-success" element={
+                    <ProtectedRoute>
+                        <Navbar />
+                        <OrderSuccess />
+                        <Footer />
+                    </ProtectedRoute>
+                } />
             </Routes>
         </BrowserRouter>
         <Toaster richColors position="top-right"/>

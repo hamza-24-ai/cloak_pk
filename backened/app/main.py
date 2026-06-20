@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base,engine
 from app.routes import auth,category,product,cart,order, review, coupon, notification
 from fastapi.security import OAuth2PasswordBearer
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 from app.models.cart import Cart
@@ -24,7 +27,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins = ["*"],
+    allow_origins = ["http://localhost:5173"],
     allow_credentials = True,
     allow_methods = ["*"],
     allow_headers = ["*"]

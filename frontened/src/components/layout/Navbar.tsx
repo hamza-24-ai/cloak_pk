@@ -2,7 +2,9 @@ import { Link, useNavigate } from "react-router-dom"
 import { ShoppingCart, User, Search, Heart, Menu, Bell, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useAuthStore } from "@/store/authStore"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import {getCart} from "@/api/cart"
+import type {CartItem} from "@/types/index"
 
 export default function Navbar() {
     const { isAuthenticated, user, logout } = useAuthStore()
@@ -10,11 +12,26 @@ export default function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false)
     const [searchOpen, setSearchOpen] = useState(false)
     const [searchQuery, setSearchQuery] = useState("")
+    const [items, setItems] = useState<CartItem[]>([])
 
     const handleLogout = () => {
         logout()
         navigate("/login")
     }
+
+    useEffect(()=> {
+        const fetchCart = async() => {
+              try{
+                const cardItems = await getCart()
+                setItems(cardItems)
+                console.log("Cart items from API:", cardItems)  // kitne items aa rahe hain?
+                
+              }catch(err){
+                console.log(err)
+              }
+            }
+        fetchCart()
+    },[])
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault()
         if (searchQuery.trim()) {
@@ -23,6 +40,7 @@ export default function Navbar() {
             setSearchQuery("")
         }
     }
+    const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0)
     return (
         <nav className="sticky top-0 z-50 bg-linear-to-r from-white to-[#C6A969]  border-b border-[#E4E4E7]">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -89,7 +107,10 @@ export default function Navbar() {
                         <Link to="/cart" className="relative text-[#52525B] hover:text-[#18181B] transition-colors">
                             <ShoppingCart size={20} />
                             <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#18181B] text-white text-[10px] rounded-full flex items-center justify-center">
-                                0
+                                {
+                                    totalQuantity
+
+                                }
                             </span>
                         </Link>
 

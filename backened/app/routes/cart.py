@@ -36,7 +36,7 @@ def add_to_cart(
         Cart.user_id == current_user.id,
         Cart.product_id == data.product_id,
         Cart.size == data.size,
-        Cart.color == data.color
+        Cart.Color == data.Color
     ).first()
 
     if existing:

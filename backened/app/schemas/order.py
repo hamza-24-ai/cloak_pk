@@ -11,14 +11,14 @@ class OrderAddress(BaseModel):
 
 class OrderCreate(BaseModel):
     address : OrderAddress
-    coupon : Optional[str] = None
+    coupon_code : Optional[str] = None
 
 class OrderItemResponse(BaseModel):
     id : int
     product_id : int
     quantity : int
     size : Optional[str]
-    color : Optional[str]
+    Color : Optional[str]
     price : float
 
     class Config:
@@ -26,7 +26,7 @@ class OrderItemResponse(BaseModel):
 
 class OrderResponse(BaseModel):
     id : int
-    user_id : int
+    userid : int
     total : float
     status : str 
     address : dict

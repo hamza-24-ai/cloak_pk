@@ -6,7 +6,7 @@ class CartAdd(BaseModel):
     product_id: int
     quantity: int = 1
     size: Optional[str] = None
-    color: Optional[str] = None
+    Color: Optional[str] = None
 
 class CartUpdate(BaseModel):
     quantity: int
@@ -17,7 +17,7 @@ class CartResponse(BaseModel):
     product_id: int
     quantity: int
     size: Optional[str]
-    color: Optional[str]
+    color: Optional[str] | None = None
     created_at: datetime
 
     class Config:
