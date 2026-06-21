@@ -92,12 +92,10 @@ export default function Navbar() {
                         </button> 
 
                         {isAuthenticated && (
-                            <button className="relative text-[#52525B] hover:text-[#18181B] hover:scale-110 transition-colors cursor-pointer">
+                            <Link to="/notifications" className="relative text-[#52525B] hover:text-[#18181B] hover:scale-110 transition-colors cursor-pointer">
                                 <Bell size={20} />
-                                <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#DC2626] text-white text-[10px] rounded-full flex items-center justify-center">
-                                    2
-                                </span>
-                            </button>
+                                
+                            </Link>
                         )}
 
                         <button className="text-[#52525B] hover:text-[#18181B] transition-all hidden sm:block cursor-pointer hover:scale-125 duration-500">

@@ -13,6 +13,8 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import AdminDashboard from "./pages/admin/Dashboard"
 import AdminLayout from "./components/layout/AdminLayout"
+import OrderDetail from "./pages/OrderDetail"
+import Notifications from "./pages/Notifications"
 
 // Admin Pages
 import AdminProducts from "./pages/admin/Products"
@@ -95,6 +97,22 @@ function App() {
                         <Footer />
                     </ProtectedRoute>
                 } />
+
+                <Route path="/orders/:id" element={
+                    <ProtectedRoute>
+                        <Navbar />
+                        <OrderDetail />
+                        <Footer />
+                    </ProtectedRoute>
+                }/>
+
+                <Route path="/notifications" element={
+                    <ProtectedRoute>
+                        <Navbar />
+                        <Notifications />
+                        <Footer />
+                    </ProtectedRoute>
+                }/>
             </Routes>
         </BrowserRouter>
         <Toaster richColors position="top-right"/>

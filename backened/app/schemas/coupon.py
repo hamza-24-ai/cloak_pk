@@ -6,7 +6,7 @@ class CouponCreate(BaseModel):
     code: str
     discount_percent: float
     max_uses: int = 100
-    expires_at: Optional[datetime] = None
+    expire_at: Optional[datetime] = None
 
 class CouponVerify(BaseModel):
     code: str
@@ -19,7 +19,7 @@ class CouponResponse(BaseModel):
     max_uses: int
     used_count: int
     is_active: bool
-    expires_at: Optional[datetime]
+    expire_at: Optional[datetime]
     created_at: datetime
 
     class Config:

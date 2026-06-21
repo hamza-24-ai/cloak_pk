@@ -33,3 +33,8 @@ export const getOrder = async(orderId : number) : Promise<Order[]> => {
 
     return data
 }
+
+export const confirmPayment = async (orderId: number): Promise<{ message: string; status: string }> => {
+    const { data } = await api.post(`/orders/${orderId}/confirm-payment`)
+    return data
+}

@@ -27,7 +27,7 @@ def verify_coupon(
     if coupon.used_count >= coupon.max_uses:
         raise HTTPException(status_code=400, detail="Coupon limit reached")
 
-    if coupon.expires_at and coupon.expires_at < datetime.utcnow():
+    if coupon.expire_at and coupon.expire_at < datetime.utcnow():
         raise HTTPException(status_code=400, detail="Coupon expired")
 
     discount = (coupon.discount_percent / 100) * data.total

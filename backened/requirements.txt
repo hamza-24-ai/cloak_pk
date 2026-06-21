@@ -31,6 +31,7 @@ markdown-it-py==4.2.0
 MarkupSafe==3.0.3
 mdurl==0.1.2
 passlib==1.7.4
+pillow==12.2.0
 psycopg2-binary==2.9.12
 pyasn1==0.6.3
 pycparser==3.0
@@ -43,6 +44,7 @@ python-dotenv==1.2.2
 python-jose==3.5.0
 python-multipart==0.0.32
 PyYAML==6.0.3
+reportlab==5.0.0
 requests==2.34.2
 rich==15.0.0
 rich-toolkit==0.20.1
