@@ -82,7 +82,7 @@ export default function Cart() {
             setAppliedCoupon(couponCode)
             toast.success("Coupon Code Applied Successfully")
         } catch (err) {
-            console.log(err)
+            console.log(err.response.data)
             setDiscount(0)
             setAppliedCoupon("")
             toast.error("Coupon Code is Invalid or expired")

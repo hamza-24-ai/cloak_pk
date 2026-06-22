@@ -5,11 +5,12 @@ import {getCategoryProducts,getFeaturedProducts} from "@/api/products"
 import type {Product,Category} from "@/types/index"
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 
 export default function Hero() {
 
+  const navigate = useNavigate()
   useEffect(()=>{
     AOS.init({
       offset: 200,
@@ -79,9 +80,10 @@ export default function Hero() {
                     Discover premium Pakistani fashion
                 </p>
 
-                <Button 
+                <Button  
+                    onClick={() => navigate('/products')}
                     size="lg"
-                    className="bg-[#C6A969] hover:bg-[#B89958] text-white px-8 py-6 text-base font-medium"
+                    className="bg-[#C6A969] hover:bg-[#B89958] text-white px-8 py-6 text-base font-medium cursor-pointer"
                     data-aos="fade-up" data-aos-duration="1000"
                 >
                     Shop Now
@@ -110,12 +112,14 @@ export default function Hero() {
                     className="group relative h-64 rounded-lg overflow-hidden"
                   >
 
-                  <img src={data.image || undefined} alt={data.slug}
-                  className=" w-full h-full object-cover group-hover:scale-105 transition-all duration-300" 
+                  <div 
+                  className=" w-full h-full object-cover group-hover:scale-105 transition-all duration-300 bg-linear-to-br from-[#a1a1f7] to-[#e9b850]" 
                   />
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/50 transition-colors flex items-center justify-center">
-                      <span className="text-white text-xl font-semibold">
+                  <div className="absolute inset-0 transition-colors flex items-center justify-center hover:bg-[#e9dbdb]">
+                      <span className="text-white text-xl font-semibold text-center hover:underline">
                           {data.name}
+                          <br />
+                          Let's Start Shopping
                       </span>
                     </div>
                   </Link>
