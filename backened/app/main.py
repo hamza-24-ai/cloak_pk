@@ -27,7 +27,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins = ["*"],
+    allow_origins = ["https://cloak-pk.vercel.app"],
     allow_credentials = True,
     allow_methods = ["*"],
     allow_headers = ["*"]
