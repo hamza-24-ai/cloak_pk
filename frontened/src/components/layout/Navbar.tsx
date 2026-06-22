@@ -20,18 +20,18 @@ export default function Navbar() {
     }
 
     useEffect(()=> {
-        const fetchCart = async() => {
-              try{
-                const cardItems = await getCart()
-                setItems(cardItems)
-                console.log("Cart items from API:", cardItems)  // kitne items aa rahe hain?
-                
-              }catch(err){
-                console.log(err)
-              }
-            }
+    const fetchCart = async() => {
+        try{
+            const cardItems = await getCart()
+            setItems(cardItems)
+        }catch(err){
+            console.log(err)
+        }
+    }
+    if(isAuthenticated) {  // ← yeh check add karo
         fetchCart()
-    },[])
+    }
+},[isAuthenticated])  // ← dependency bhi add karo
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault()
         if (searchQuery.trim()) {
